@@ -63,7 +63,7 @@ my-repo/member-app      0.1.0           1.0.0           fastapi member applicati
 
 # github pages 에서 내려 받은 helm chart 를 배포해보기
 # 이미 존재하는 namespace 가 있으면 삭제후에 
-kubectl delete ns helm01
+kubectl delete ns helm01 
 # 배포하기
 helm install member-release my-repo/member-app -n helm01 --create-namespace
 # 확인하기
@@ -97,4 +97,22 @@ helm search repo my-repo
 # version 이 올라간걸 확인할수 있다.
 NAME                    CHART VERSION   APP VERSION     DESCRIPTION               
 my-repo/member-app      0.1.1           1.0.1           fastapi member application
+
+```
+
+### 새로운 chart 를 만들고 배포하기
+
+```bash
+
+# 새로 만든 chart 를 압축해서 docs/ 폴더 안에 저장
+helm package charts/helm02_micro -d docs/
+# index.yaml 파일을 업데이트 하기
+helm repo index docs/ --url  https://oli999.github.io/my-helm-chart/
+
+
+# docs 에 tgz 파일을 넣고, index.yaml 파일에 새로운 정보를 넣은 다음 push 하면 배포가 자동으로 된다.
+git add .
+git commit -m "helm02_micro chart 추가함"
+git push
+
 ```
